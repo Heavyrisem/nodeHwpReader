@@ -1,0 +1,16 @@
+{
+  "name": "hwp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc && node dist/main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "compound-binary-file-js": "^1.0.12",
+    "tslib": "^2.2.0"
+  }
+}
