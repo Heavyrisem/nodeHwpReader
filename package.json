@@ -11,6 +11,10 @@
   "license": "ISC",
   "dependencies": {
     "compound-binary-file-js": "^1.0.12",
-    "tslib": "^2.2.0"
+    "tslib": "^2.2.0",
+    "zlib": "^1.0.5"
+  },
+  "devDependencies": {
+    "@types/node": "^15.0.1"
   }
 }
