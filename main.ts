@@ -1,6 +1,15 @@
 import fs from 'fs';
 import zlib from 'zlib';
 import {CompoundFile} from 'compound-binary-file-js';
+import { HWP_Header_T } from './Types';
+
+// let HWP_: HWP_Header_T = {
+//     signature: "d",
+//     version: [1,1,1,1],
+//     isCompressed: false,
+//     isLocked: false,
+//     isPublic: false
+// }
 
 
 const cfb = CompoundFile.fromUint8Array(toUint8Array(fs.readFileSync('./target.hwp')));
@@ -20,6 +29,12 @@ for (const stream of subStreams) {
     switch (stream.getDirectoryEntryName()) {
         case "FileHeader": {
             console.log("Reading FileHeader");
+            const HeaderBuffer = Buffer.from(stream.getStreamData());
+            let Cursor = 0;
+
+            console.log(HeaderBuffer.slice(Cursor, (Cursor+=32)).toString());
+            Cursor++;
+            console.log("HWP Version:", [...HeaderBuffer.slice(Cursor, (Cursor+=4))].join("."));
             break;
         }
         case "PrvImage": {
@@ -27,7 +42,7 @@ for (const stream of subStreams) {
             fs.writeFile('./pervimg.png', Buffer.from(stream.getStreamData()), () => {console.log("PervImg saved to ./pervimg.png");});
             break;
         }
-        case "PrvText": {break;
+        case "PrvText": {
             console.log("PrvText");
             console.log(Buffer.from(stream.getStreamData()));
             console.log('========= Preview Text ==========');
@@ -70,7 +85,7 @@ for (const stream of subStorages) {
                 //     console.log(String.fromCodePoint(parseInt(`${Data[i+1].toString(16)}${Data[i].toString(16)}`, 16)), Data[i+1].toString(16), Data[i].toString(16));
                 // }
                 // console.log(UData.toString('utf16le'))
-                console.log("====== End", Section.getDirectoryEntryName(), "======");
+                console.log("\n\n====== End", Section.getDirectoryEntryName(), "======");
             }
             break;
         }
